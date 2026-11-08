@@ -26,3 +26,12 @@ iframe {
 	border:none;
 }
 
+.editor-panel {
+	display: flex;
+	flex-direction: column;
+}
+
+textarea {
+	flex-grow: 1;
+	border:none;
+}

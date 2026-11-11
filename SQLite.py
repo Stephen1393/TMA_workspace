@@ -1,32 +1,19 @@
 import sqlite3
 
-con = sqlite3.connect("TMA.db")
 
-cur = con.cursor()
+def get_connection():
+    return sqlite3.connect("TMA.db")
 
-cur.execute("""
+def get_answers():
+    con = get_connection()
 
-    CREATE TABLE IF NOT EXISTS answers(
-            id INTEGER,
-            question_id INTEGER,
-            answer TEXT)
-            """
-            )
+    cur = con.cursor()
 
+    cur.execute("SELECT * FROM answers")
 
-cur.execute("""
+    result = cur.fetchall()
 
-    INSERT INTO answers VALUES
-            (1, 101, "THE answer is 42"),
-            (2, 102, "The answer is 100");
-            """
-            )
-
-cur.execute("SELECT * from answers")
-
-
-con.commit()
-result = cur.fetchall()
-print(result)
-
+    con.close()
+    
+    return result
 

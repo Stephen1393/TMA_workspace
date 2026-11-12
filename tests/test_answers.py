@@ -1,6 +1,6 @@
 from main import app
 from fastapi.testclient import TestClient
-from database import get_connection, get_answers
+from database import get_connection, get_answers, get_answer
 import pytest
 
 client = TestClient(app)
@@ -43,10 +43,21 @@ def test_answers(test_database, monkeypatch):
             lambda: get_answers(str(test_database))
             )
                 
-    response = client.get('/answers')
+    response = client.get("/answers")
 
     assert response.status_code == 200
     assert len(response.json()) == 2
     assert response.json()[0][2] == "The answer is 42" 
     assert response.json()[1][2] == "The answer is 100"
 
+def test_answer(test_database, monkeypatch):
+
+       monkeypatch.setattr(
+               "main.get_answer",
+               lambda question_id: get_answer(question_id, str(test_database))
+               )
+
+       response = client.get("/answers/101")
+
+       assert response.status_code == 200
+       assert response.json()[2] == "The answer is 42"

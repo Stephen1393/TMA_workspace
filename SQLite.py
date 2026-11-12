@@ -17,3 +17,24 @@ def get_answers():
     
     return result
 
+
+def get_answer(question_id):
+    con = get_connection()
+
+    cur = con.cursor()
+
+    cur.execute(
+            "SELECT * FROM answers WHERE question_id = ?",
+
+            (question_id,)
+
+            )
+
+    result = cur.fetchone()
+
+    con.close()
+
+    return result
+
+
+

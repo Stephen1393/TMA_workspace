@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from SQLite import get_answers
+from SQLite import get_answer
 
 app = FastAPI()
 
@@ -25,3 +26,9 @@ def get_questions():
 
 def read_anwsers():
     return get_answers()
+
+
+@app.get('/answers/{question_id}')
+
+def read_answer(question_id: int):
+    return get_answer(question_id)

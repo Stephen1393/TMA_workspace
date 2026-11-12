@@ -16,3 +16,7 @@ __pycache__/
 
 #database
 *.db
+
+#private OU PDF assessments
+private_pdfs/
+

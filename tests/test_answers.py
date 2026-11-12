@@ -1,12 +1,14 @@
 from main import app
 from fastapi.testclient import TestClient
 from database import get_connection, get_answers
+import pytest
 
 client = TestClient(app)
 
-def test_answers(tmp_path, monkeypatch):
-    test_database = tmp_path / "test.db"
-    con = get_connection(str(test_database))
+@pytest.fixture
+def test_database(tmp_path):
+    database_path = tmp_path / "test.db"
+    con = get_connection(str(database_path))
     cur = con.cursor()
     cur.execute("""
     CREATE TABLE answers (
@@ -30,6 +32,12 @@ def test_answers(tmp_path, monkeypatch):
     con.commit()
     con.close()
 
+    return database_path
+
+
+
+def test_answers(test_database, monkeypatch):
+
     monkeypatch.setattr(
             "main.get_answers",
             lambda: get_answers(str(test_database))
@@ -40,4 +48,5 @@ def test_answers(tmp_path, monkeypatch):
     assert response.status_code == 200
     assert len(response.json()) == 2
     assert response.json()[0][2] == "The answer is 42" 
-    assert response.json()[1][2] == "The answer is 100" 
+    assert response.json()[1][2] == "The answer is 100"
+

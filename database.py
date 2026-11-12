@@ -1,11 +1,11 @@
 import sqlite3
 
 
-def get_connection():
-    return sqlite3.connect("TMA.db")
+def get_connection(database: str = "TMA.db"):
+    return sqlite3.connect(database)
 
-def get_answers():
-    con = get_connection()
+def get_answers(database: str = "TMA.db"):
+    con = get_connection(database)
 
     cur = con.cursor()
 
@@ -18,8 +18,8 @@ def get_answers():
     return result
 
 
-def get_answer(question_id):
-    con = get_connection()
+def get_answer(question_id: int, database: str = "TMA.db"):
+    con = get_connection(database)
 
     cur = con.cursor()
 

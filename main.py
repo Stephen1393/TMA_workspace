@@ -1,6 +1,6 @@
 from fastapi import FastAPI
-from SQLite import get_answers
-from SQLite import get_answer
+from database import get_answers
+from database import get_answer
 
 app = FastAPI()
 
